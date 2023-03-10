@@ -6,39 +6,61 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/03/04 17:55:17 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/03/10 07:32:20 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
-/*
-char	*buffer(fd1)
+
+char	*get_bufer(int fd, char *buf)
 {
-	char	*str;
-	read(fd1, str, BUFFER_SIZE);
-	while (
+	b
 }
-*/
+
+char	*get_line(char	*buf)
+{
+	char	*stash;
+	char	*line;
+
+
+	aux = ft_strrchr(buf, '\n');
+
+	return (line);
+}
+
 char	*get_next_line(int fd1)
 {
-	char	*buf;
-	int		aux;
+	static char	*buf;
+	char		*line;
+	//int		aux;
 
+	buf = get_buffer(fd, buf);
 	buf = (char *) calloc(100, sizeof(char));
-	aux = read(fd1, buf, 100);
-	buf[aux] = '\0';
-	return (buf);
+	if (!buf)
+		return (NULL);
+	/*aux = */read(fd1, buf, BUFFER_SIZE);
+	//buf[aux] = '\0';
+	line = get_line(buf),
+	return (line);
 }
 
 int	main(void)
 {
-	char	*str;
-	int		fd1;
+	int		fd;
+	char	*line;
+	int		i;
 
-	fd1 = open("tests/test01.txt", O_RDONLY);
-	printf("%s", get_next_line(fd1));
-	return (0);
+	i = 0;
+	fd = open("tests/test01.txt", O_RDONLY);
+	while (i < 10)
+	{
+		line = (char *)malloc(sizeof(*line) * 1);
+		line = get_next_line(fd);
+		printf("%s\n", line);
+		i++;
+	}
 }

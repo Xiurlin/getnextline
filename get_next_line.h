@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 17:06:31 by drestrep          #+#    #+#             */
-/*   Updated: 2022/12/10 14:22:12 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/03/09 20:46:58 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,8 @@
 #include <stdlib.h>
 
 char	*get_next_line(int fd);
+char    *ft_strchr(const char *s, int c);
+int		ft_strlen(const char *str)
+
 
 #endif
