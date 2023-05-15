@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   gnlprueba.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/05/15 05:46:30 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/05/15 05:59:01 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*get_stash(char *buf)
 	return (stash);
 }
 
-char	*get_line(char	*buf)
+char	*get_line(char *buf)
 {
 	char	*stash;
 	char	*line;
@@ -50,13 +50,22 @@ char	*get_line(char	*buf)
 	return (line);
 }
 
+char    *get_rest (static char *rest)
+{
+    char    *buf;
+
+    while (ft_strchr(get_str, '\n') )
+    buf = get_buf(rest);
+    
+}
 char	*get_next_line(int fd)
 {
 	static char	*rest;
 	char		*buf;
 	char		*line;
 
-	//buf = get_buffer(fd, buf);
+    rest = get_rest(rest);
+	//stash = get_stash(buf);
 	read(fd, buf, 5); /*BUFFER SIZE AL FINAL*/
 	line = get_line(buf);
 	line = buf;
