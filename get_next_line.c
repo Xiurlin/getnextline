@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/05/15 05:46:30 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/05/29 05:57:33 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,17 @@
 #include <stdio.h>
 
 /*BUFFER SIZE AL PRINCIPIO + 1*/
-//char	*get_stash(int fd, char *stash)
-char	*get_stash(char *buf)
+
+char	*get_buffer(int fd, char *buf)
+{
+	char	*stash;
+
+	read(fd, buf, 2); //BUFFER SIZE AL FINAL
+	stash = get_stash(fd, buf);
+	return (stash);
+}
+
+char	*get_stash(int fd, char *buf)
 {
 	char	*stash;
 	int		i;
@@ -27,7 +36,11 @@ char	*get_stash(char *buf)
 	stash = (char *) malloc(100 * sizeof(char));
 	if (!stash)
 		return (NULL);
-	stash = buf;
+	stash = ft_strjoin(stash, buf);
+	if (ft_strchr(stash, '\n') != 0)
+		return (stash);
+	else
+		buf = get_buffer(fd, buf);
 	/*
 	while(i)
 	{
@@ -37,32 +50,22 @@ char	*get_stash(char *buf)
 			break ;
 	}
 	*/
-	return (stash);
-}
-
-char	*get_line(char	*buf)
-{
-	char	*stash;
-	char	*line;
-
-	stash = get_stash(buf);
-	line = stash;
-	return (line);
+	//return (stash);
+	return (0);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*rest;
+	//static char	*rest;
 	char		*buf;
 	char		*line;
 
-	//buf = get_buffer(fd, buf);
-	read(fd, buf, 5); /*BUFFER SIZE AL FINAL*/
-	line = get_line(buf);
+	buf = get_buffer(fd, buf);;
 	line = buf;
 	return (line);
 }
 
+/*
 int	main(void)
 {
 	char	*line;
@@ -74,7 +77,7 @@ int	main(void)
 	line = get_next_line(fd);
 	printf("%s\n", line);
 	close(fd);
-	return (0);
+	return (0);*/
 	/*
 	while (i < 10)
 	{
@@ -83,5 +86,37 @@ int	main(void)
 		printf("%s\n", line);
 		i++;
 	}
-	*/
+}*/
+
+
+
+
+int main(void)
+{
+    char    *line;
+    int     i;
+    int     fd1;
+    //int       fd2;
+    //int       fd3;
+    fd1 = open("tests/test.txt", O_RDONLY);
+    //fd2 = open("tests/test2.txt", O_RDONLY);
+    //fd3 = open("tests/test3.txt", O_RDONLY);
+    i = 1;
+    while (i < 2)
+    {
+        line = get_next_line(fd1);
+        printf("line [%02d]: %s", i, line);
+        free(line);/*
+        line = get_next_line(fd2);
+        printf("line [%02d]: %s", i, line);
+        free(line);
+        line = get_next_line(fd3);
+        printf("line [%02d]: %s", i, line);
+        free(line);*/
+        i++;
+    }
+    close(fd1);
+    //close(fd2);
+    //close(fd3);
+    return (0);
 }
