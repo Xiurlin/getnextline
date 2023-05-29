@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/05/29 05:57:33 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/05/29 06:33:07 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,29 @@
 
 /*BUFFER SIZE AL PRINCIPIO + 1*/
 
-char	*get_buffer(int fd, char *buf)
+char	*get_stash(int fd, char *buf)
 {
 	char	*stash;
-
-	read(fd, buf, 2); //BUFFER SIZE AL FINAL
-	stash = get_stash(fd, buf);
+	
+	stash = (char *) malloc(100 * sizeof(char));
+	if (!stash)
+		return (NULL);
+	read(fd, buf, 5); //BUFFER SIZE AL FINAL
+	stash = get_line(fd, buf);
 	return (stash);
 }
 
-char	*get_stash(int fd, char *buf)
+char	*get_line(int fd, char *buf)
 {
 	char	*stash;
 	int		i;
 
 	i = 1;
-	stash = (char *) malloc(100 * sizeof(char));
-	if (!stash)
-		return (NULL);
 	stash = ft_strjoin(stash, buf);
 	if (ft_strchr(stash, '\n') != 0)
 		return (stash);
 	else
-		buf = get_buffer(fd, buf);
+		buf = get_stash(fd, buf);
 	/*
 	while(i)
 	{
@@ -57,10 +57,12 @@ char	*get_stash(int fd, char *buf)
 char	*get_next_line(int fd)
 {
 	//static char	*rest;
+	if (!fd)
+		return (0);
 	char		*buf;
 	char		*line;
 
-	buf = get_buffer(fd, buf);;
+	buf = get_stash(fd, buf);;
 	line = buf;
 	return (line);
 }
