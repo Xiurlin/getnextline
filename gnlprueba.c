@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/05/29 05:47:44 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/05/31 08:55:07 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,39 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-char	*get_buffer(int fd, char *buf)
-{
-	char	*stash;
-	
-	read(fd, buf, 2); // Tamaño del búfer al finalizar
-	stash = get_stash(fd, buf);
-	return (stash);
-}
-
-char	*get_stash(int fd, char *buf)
-{
-	char	*stash;
-
-	stash = (char *)malloc(100 * sizeof(char));
-	if (!stash)
-		return (NULL);
-	stash = ft_strjoin(stash, buf);
-	if (ft_strchr(stash, '\n') != 0)
-		return (stash);
-	else
-		buf = get_buffer(fd, buf);
-	return (stash);
-}
-
 char	*get_next_line(int fd)
 {
-	char	*buf;
 	char	*line;
+	char	buf[2];
+	char	*stash;
+	int		stash_size;
+	int		read_size;
 
-	buf = (char *)malloc(sizeof(char) * 2); // Tamaño del búfer al principio + 1
-	line = get_buffer(fd, buf);
+	line = NULL;
+	stash = NULL;
+	stash_size = 0;
+	while ((read_size = read(fd, buf, 1)) > 0)
+	{
+		if (buf[0] == '\n')
+		{
+			line = ft_strjoin(stash, line);
+			free(stash);
+			stash = NULL;
+			stash_size = 0;
+			break;
+		}
+		stash = ft_strjoin(stash, buf);
+		stash_size++;
+	}
+	if (read_size == 0 && stash != NULL)
+	{
+		line = ft_strjoin(stash, line);
+		free(stash);
+		stash = NULL;
+	}
 	return (line);
 }
+
 
 int	main(void)
 {

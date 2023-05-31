@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/05/29 06:33:07 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:49:40 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,30 @@ char	*get_line(int fd, char *buf)
 	return (0);
 }
 
+char	*prueba(int fd, char *buf)
+{
+	char	*stash;
+	char	*line;
+
+	stash = (char *) malloc(100 * sizeof(char));
+	if (!stash)
+		return (NULL);
+	while (ft_strchr(stash, '\n') != 0) // Si no lo encuentra
+	{
+		read(fd, buf, 2); // Último parámetro BUFFER_SIZE
+		stash = ft_strjoin(stash, buf);
+		free (buf);
+		if (ft_strchr(stash, '\n') == 0) // Si lo encuentra
+		{
+			line = stash;
+			return (line);
+		}
+	}
+	
+}
 char	*get_next_line(int fd)
 {
-	//static char	*rest;
-	if (!fd)
+	if (!fd) // (|| BUFFER_SIZE <= 0)
 		return (0);
 	char		*buf;
 	char		*line;
