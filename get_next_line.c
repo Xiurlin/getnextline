@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/02 12:58:02 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/04 22:28:07 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,43 +54,61 @@ char	*get_line(int fd, char *buf)
 	return (0);
 }*/
 
+
 char	*prueba(int fd, char *buf)
 {
 	char	*stash;
-	char	*line;
-	//char	*next_line; 
+	//char	*line;
+	//char	*readed; 
 
 	stash = (char *) malloc(100 * sizeof(char));
 	if (!stash)
 		return (NULL);
+	//stash = buf;
+	//free (buf);
 	while (ft_strchr(stash, '\n') == 0) // Si no encuentra \n en stash
 	{
-		buf = (char *) malloc(100 * sizeof(char)); // 100 se sustituye por BUFFER_SIZE
+		buf = (char *) malloc(BUFFER_SIZE * sizeof(char));
 		if (!buf)
 			return (NULL);
-		read(fd, buf, 2); // Último parámetro BUFFER_SIZE
+		read(fd, buf, BUFFER_SIZE); // Último parámetro BUFFER_SIZE
 		stash = ft_strjoin(stash, buf);
-		free (buf);
 	}
+	//readed = stash;
+	free (buf);
+	return (stash);
+	/*
 	if (ft_strchr(stash, '\n') != 0) // Si encuentra \n en stash
 	{
-		//next_line = ft_strchr (stash, '\n');
 		line = ft_strcpy(stash, '\n');
+		stash = ft_strchr(stash, '\n');
 		return (line);
 	}
+	*/
 	return (0);
 }
 
+
 char	*get_next_line(int fd)
 {
-	if (!fd) // (|| BUFFER_SIZE <= 0)
+	if (!fd || BUFFER_SIZE <= 0)
 		return (0);
-	char		*buf;
+	//static char	*left;
+	static char	*buf;
 	char		*line;
 
-	//buf = get_stash(fd, buf);
-	buf = prueba(fd, buf);
+	//buf = (char *) malloc(BUFFER_SIZE * sizeof(char));
+	//if (!buf)
+	//	return (0);
+	//left = (char *) malloc(BUFFER_SIZE * sizeof(char));
+	//if (!left)
+	//	return (0);
+	//buf = left;
 	line = buf;
+	buf = prueba(fd, buf);
+	//left = ft_strchr(buf, '\n');
+	line = ft_strcpy(buf, '\n');
+	buf = ft_strchr(buf, '\n');
 	return (line);
 }
 
@@ -98,13 +116,21 @@ char	*get_next_line(int fd)
 int	main(void)
 {
 	char	*line;
+	//char	*left;
 	int		fd;
 	int		i;
 
 	i = 1;
 	fd = open("test01.txt", O_RDONLY);
-	line = get_next_line(fd);
-	printf("%s\n", line);
+	while (i < 3)
+	{
+		line = get_next_line(fd);
+		//left = ft_strchr(line, '\n');
+		//line = ft_strcpy(line, '\n');
+		printf("Línea[%d]: %s\n", i, line); //Sobrante: %s\n, left
+		free (line);
+		i++;
+	}
 	close(fd);
 	return (0);
 	/*
@@ -155,3 +181,7 @@ int main(void)
     return (0);
 }
 */
+
+
+
+// NO FUNCIONA CON BUFFER_SIZE = 32 ?!?!?!?!?!?!?

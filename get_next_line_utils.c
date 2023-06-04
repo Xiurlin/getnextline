@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:26:28 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/02 12:36:00 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/04 22:27:45 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char    *ft_strcpy(char *str, char c)
 
     i = 0;
     newstr = (char *) malloc(100 * sizeof(char));
+	if (!newstr)
+		return (0);
     while (str[i] != c)
     {
         newstr[i] = str[i];
