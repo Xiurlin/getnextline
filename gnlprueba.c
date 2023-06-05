@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/04 18:58:55 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/05 00:19:03 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,3 +166,38 @@ int main(void)
 
 
 // NO FUNCIONA CON BUFFER_SIZE = 32 ?!?!?!?!?!?!?
+
+
+/*
+char	*prueba(int fd, char *buf)
+{
+	char	*stash;
+	//char	*line;
+	int		readed; 
+
+	stash = (char *) malloc(100 * sizeof(char));
+	if (!stash)
+		return (NULL);
+	readed = 1;
+	//stash = buf;
+	//free (buf);
+	while (ft_strchr(stash, '\n') == 0) // Si no encuentra \n en stash
+	{
+		buf = (char *) malloc(BUFFER_SIZE * sizeof(char));
+		if (!buf)
+			return (NULL);
+		read(fd, buf, BUFFER_SIZE); // Último parámetro BUFFER_SIZE
+		stash = ft_strjoin(stash, buf);
+	}
+	//readed = stash;
+	free (buf);
+	return (stash);
+	/*
+	if (ft_strchr(stash, '\n') != 0) // Si encuentra \n en stash
+	{
+		line = ft_strcpy(stash, '\n');
+		stash = ft_strchr(stash, '\n');
+		return (line);
+	}
+	*/
+//}

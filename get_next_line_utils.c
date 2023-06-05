@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:26:28 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/04 22:27:45 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/05 02:17:52 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,3 +103,50 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)(s + i));
 	return (NULL);
 }
+
+char	*ft_next_line(char *str)
+{
+	int i;
+	int j;
+	char	*next_line;
+	
+	i = 0;
+	j = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i] != '\n')
+        i++;
+	next_line = (char *) malloc((ft_strlen(str) - i + 1) * sizeof(char));
+	if (!next_line)
+		return (NULL);
+	i++;
+	while (str[i])
+		next_line[j++] = str[i++];
+	free (str);
+	next_line[j] = '\0';
+	return (next_line);
+}
+/* LA IDEA EN ESTE TROZO ES HACERLO CON UN PUNTERO DE MODO QUE (*i)++
+SEA IGUAL A LO QUE SOBRA PA LA SIGUIENTE LÍNEA
+char	*ft_next_line(char *str)
+{
+	int i;
+	int j;
+	char	*next_line;
+	
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i] != '\n')
+        i++;
+	next_line = (char *) malloc((ft_strlen(str) - i + 1) * sizeof(char));
+	if (!next_line)
+		return (NULL);
+	i++;
+	j = 0;
+	while (str[i])
+		next_line[j++] = str[i++];
+	free (str);
+	next_line[j] = '\0';
+	return (next_line);
+}
+*/
