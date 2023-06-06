@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:26:28 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/05 02:17:52 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/06 03:15:00 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,51 @@ void	*ft_calloc(size_t count, size_t size)
 	}
 	return (ptr);
 }
-
+/*
 char    *ft_strcpy(char *str, char c)
 {
     char    *newstr;
     int     i;
 
     i = 0;
-    newstr = (char *) malloc(100 * sizeof(char));
+    newstr = (char *) malloc(BUFFER_SIZE * sizeof(char));
 	if (!newstr)
 		return (0);
-    while (str[i] != c)
+    while (str[i] && str[i] != c)
     {
         newstr[i] = str[i];
         i++;
 	}
 	return (newstr);
+}
+*/
+
+char    *ft_get_line(char *left_str)
+{
+    int     i;
+    char    *str;
+
+    i = 0;
+    if (!left_str[i])
+        return (NULL);
+    while (left_str[i] && left_str[i] != '\n')
+        i++;
+    str = (char *)malloc(sizeof(char) * (i + 2));
+    if (!str)
+        return (NULL);
+    i = 0;
+    while (left_str[i] && left_str[i] != '\n')
+    {
+        str[i] = left_str[i];
+        i++;
+    }
+    if (left_str[i] == '\n')
+    {
+        str[i] = left_str[i];
+        i++;
+    }
+    str[i] = '\0';
+    return (str);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)

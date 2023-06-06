@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/05 02:22:57 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/06 04:21:29 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,81 +16,75 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-/*BUFFER SIZE AL PRINCIPIO + 1*/
-/*
-char	*get_stash(int fd, char *buf)
+// EL ERROR ESTÁ AQUÍIIII
+
+char	*ft_readed(int fd, char *readed)
 {
 	char	*stash;
-	
-	stash = (char *) malloc(100 * sizeof(char));
+	int		buf; 
+
+	stash = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!stash)
 		return (NULL);
-	read(fd, buf, 5); //BUFFER SIZE AL FINAL
-	stash = get_line(fd, buf);
-	return (stash);
-}
-
-char	*get_line(int fd, char *buf)
-{
-	char	*stash;
-	int		i;
-
-	i = 1;
-	stash = ft_strjoin(stash, buf);
-	if (ft_strchr(stash, '\n') != 0)
-		return (stash);
-	else
-		buf = get_stash(fd, buf);*/
-	/*
-	while(i)
-	{
-		read(fd, buf, BUFFER_SIZE);
-		stash = ft_strjoin(stash, buf);
-		if (ft_strchr(stash, '\n') != 0)
-			break ;
-	}
-	*/
-	/*return (stash);
-	return (0);
-}*/
-
-char	*prueba(int fd, char *buf)
-{
-	char	*stash;
-	//char	*line;
-	int		readed; 
-
-	stash = (char *) malloc(100 * sizeof(char));
-	if (!stash)
-		return (NULL);
-	readed = 1;
+	buf = 1;
 	//stash = buf;
 	//free (buf);
 	while (ft_strchr(stash, '\n') == 0) // Si no encuentra \n en stash
 	{
-		buf = (char *) malloc(BUFFER_SIZE * sizeof(char));
-		if (!buf)
+		if (!readed)
+			readed = (char *) malloc(BUFFER_SIZE * sizeof(char));
+		if (!readed)
 			return (NULL);
-		readed = read(fd, buf, BUFFER_SIZE);
-		buf[readed] = '\0';
-		stash = ft_strjoin(stash, buf);
+		buf = read(fd, stash, BUFFER_SIZE);
+		readed[buf] = '\0';
+		readed = ft_strjoin(readed, stash);
 	}
 	//readed = stash;
-	free (buf);
-	return (stash);
+	free (stash);
+	return (readed);
 }
+
+/*
+char	*ft_readed(int fd, char *left_str)
+{
+    char    *buff;
+    int     rd_bytes;
+
+    buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+    if (!buff)
+        return (NULL);
+    rd_bytes = 1;
+    while (!ft_strchr(left_str, '\n') && rd_bytes != 0)
+    {
+        rd_bytes = read(fd, buff, BUFFER_SIZE);
+        if (rd_bytes == -1)
+        {
+            free(buff);
+            return (NULL);
+        }
+        buff[rd_bytes] = '\0';
+        left_str = ft_strjoin(left_str, buff);
+    }
+    free(buff);
+    return (left_str);
+}*/
 
 char	*get_next_line(int fd)
 {
-	static char	*buf;
+	static char	*readed;
 	char		*line;
 	
 	if (!fd || BUFFER_SIZE <= 0)
 		return (0);
-	line = buf;
-	buf = prueba(fd, buf);
-	line = ft_strcpy(buf, '\n');
-	buf = ft_next_line(buf);
+	//line = buf;
+	printf("readed0:%s\n", readed);
+	readed = ft_readed(fd, readed);
+	printf("readed1:%s\n", readed);
+	//line = ft_strcpy(readed, '\n');
+	line = ft_get_line(readed);
+	printf("readed2:%s\n", line);
+	readed = ft_next_line(readed);
+	printf("readed3:%s\n", readed);
 	return (line);
 }
 
@@ -115,15 +109,6 @@ int	main(void)
 	}
 	close(fd);
 	return (0);
-	/*
-	while (i < 10)
-	{
-		line = (char *)malloc(sizeof(*line) * 1);
-		line = get_next_line(fd);
-		printf("%s\n", line);
-		i++;
-	}
-	*/
 }
 
 
