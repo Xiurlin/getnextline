@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:26:28 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/06 03:15:00 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:45:18 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char    *ft_get_line(char *left_str)
     str[i] = '\0';
     return (str);
 }
-
+/*
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	i;
@@ -104,6 +104,35 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	return (s3);
 }
+*/
+
+char    *ft_strjoin(char *left_str, char *buff)
+{
+    size_t  i;
+    size_t  j;
+    char    *str;
+
+    if (!left_str)
+    {
+        left_str = (char *)malloc(1 * sizeof(char));
+        left_str[0] = '\0';
+    }
+    if (!left_str || !buff)
+        return (NULL);
+    str = malloc(sizeof(char) * ((ft_strlen(left_str) + ft_strlen(buff)) + 1));
+    if (str == NULL)
+        return (NULL);
+    i = -1;
+    j = 0;
+    if (left_str)
+        while (left_str[++i] != '\0')
+            str[i] = left_str[i];
+    while (buff[j] != '\0')
+        str[i++] = buff[j++];
+    str[ft_strlen(left_str) + ft_strlen(buff)] = '\0';
+    free(left_str);
+    return (str);
+}
 
 int	ft_strlen(const char *str)
 {
@@ -117,10 +146,11 @@ int	ft_strlen(const char *str)
 	}
 	return (i);
 }
-
+/*
 char	*ft_strchr(const char *s, int c)
 {
 	int	i;
+	
 	i = ft_strlen((char *)s);
 	while (i >= 0)
 	{
@@ -131,6 +161,25 @@ char	*ft_strchr(const char *s, int c)
 	if (c == '\0' && s[i] == (char)c)
 		return ((char *)(s + i));
 	return (NULL);
+}
+*/
+
+char    *ft_strchr(char *s, int c)
+{
+    int i;
+
+    i = 0;
+    if (!s)
+        return (0);
+    if (c == '\0')
+        return ((char *)&s[ft_strlen(s)]);
+    while (s[i] != '\0')
+    {
+        if (s[i] == (char) c)
+            return ((char *)&s[i]);
+        i++;
+    }
+    return (0);
 }
 
 char	*ft_next_line(char *str)
@@ -149,12 +198,14 @@ char	*ft_next_line(char *str)
 	if (!next_line)
 		return (NULL);
 	i++;
-	while (str[i])
+	while (str[i] && str[i] != '\0')
 		next_line[j++] = str[i++];
 	free (str);
 	next_line[j] = '\0';
 	return (next_line);
 }
+
+
 /* LA IDEA EN ESTE TROZO ES HACERLO CON UN PUNTERO DE MODO QUE (*i)++
 SEA IGUAL A LO QUE SOBRA PA LA SIGUIENTE LÍNEA
 char	*ft_next_line(char *str)

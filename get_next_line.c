@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/06 04:21:29 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:04:42 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 
 // EL ERROR ESTÁ AQUÍIIII
-
+/*
 char	*ft_readed(int fd, char *readed)
 {
 	char	*stash;
@@ -43,9 +43,39 @@ char	*ft_readed(int fd, char *readed)
 	free (stash);
 	return (readed);
 }
+*/
+
+char	*ft_readed(int fd, char *readed)
+{
+	char	*stash;
+	int		buf; 
+
+	if (!readed)
+		readed = ft_calloc(sizeof(char), 1);
+    if (!readed)
+	    return (NULL);
+	stash = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));;
+	if (!stash)
+		return (NULL);
+	buf = 1;
+	while (ft_strchr(stash, '\n') == 0 && buf != 0) // Si no encuentra \n en stash
+	{
+		buf = read(fd, stash, BUFFER_SIZE);
+		if (buf < 0)
+		{
+			free (readed);
+			free (stash);
+			return (NULL);	
+		}
+		stash[buf] = '\0';
+		readed = ft_strjoin(readed, stash);
+	}
+	free (stash);
+	return (readed);
+}
 
 /*
-char	*ft_readed(int fd, char *left_str)
+char	*ft_readed(int fd, char *readed)
 {
     char    *buff;
     int     rd_bytes;
@@ -54,7 +84,7 @@ char	*ft_readed(int fd, char *left_str)
     if (!buff)
         return (NULL);
     rd_bytes = 1;
-    while (!ft_strchr(left_str, '\n') && rd_bytes != 0)
+    while (!ft_strchr(readed, '\n') && rd_bytes != 0)
     {
         rd_bytes = read(fd, buff, BUFFER_SIZE);
         if (rd_bytes == -1)
@@ -63,32 +93,33 @@ char	*ft_readed(int fd, char *left_str)
             return (NULL);
         }
         buff[rd_bytes] = '\0';
-        left_str = ft_strjoin(left_str, buff);
+        readed = ft_strjoin(readed, buff);
     }
     free(buff);
-    return (left_str);
+    return (readed);
 }*/
+
 
 char	*get_next_line(int fd)
 {
 	static char	*readed;
 	char		*line;
 	
-	if (!fd || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	//line = buf;
-	printf("readed0:%s\n", readed);
+	//printf("readed0:%s\n", readed);
 	readed = ft_readed(fd, readed);
-	printf("readed1:%s\n", readed);
-	//line = ft_strcpy(readed, '\n');
+	if (!readed)
+		return (0);
+	//printf("readed1:%s\n", readed);
 	line = ft_get_line(readed);
-	printf("readed2:%s\n", line);
+	//printf("readed2:%s\n", line);
 	readed = ft_next_line(readed);
-	printf("readed3:%s\n", readed);
+	//printf("readed3:%s\n", readed);
 	return (line);
 }
 
-
+/*
 int	main(void)
 {
 	char	*line;
@@ -97,8 +128,8 @@ int	main(void)
 	int		i;
 
 	i = 1;
-	fd = open("test01.txt", O_RDONLY);
-	while (i < 3)
+	fd = open("test00.txt", O_RDONLY);
+	while (i < 5)
 	{
 		line = get_next_line(fd);
 		//left = ft_strchr(line, '\n');
@@ -110,45 +141,4 @@ int	main(void)
 	close(fd);
 	return (0);
 }
-
-
-
-/*
-int main(void)
-{
-    char    *line;
-    int     i;
-    int     fd1;
-    //int       fd2;
-    //int       fd3;
-    fd1 = open("tests/test.txt", O_RDONLY);
-    //fd2 = open("tests/test2.txt", O_RDONLY);
-    //fd3 = open("tests/test3.txt", O_RDONLY);
-    i = 1;
-    while (i < 2)
-    {
-        line = get_next_line(fd1);
-        printf("line [%02d]: %s", i, line);
-        free(line);
-		*/
-		/*
-        line = get_next_line(fd2);
-        printf("line [%02d]: %s", i, line);
-        free(line);
-        line = get_next_line(fd3);
-        printf("line [%02d]: %s", i, line);
-        free(line);
-		*/
-        /*
-		i++;
-    }
-    close(fd1);
-    //close(fd2);
-    //close(fd3);
-    return (0);
-}
 */
-
-
-
-// NO FUNCIONA CON BUFFER_SIZE = 32 ?!?!?!?!?!?!?
