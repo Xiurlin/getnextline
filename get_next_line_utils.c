@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 10:26:28 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/08 12:45:18 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/10 04:41:56 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	*ft_calloc(size_t count, size_t size)
 		return (0);
 	ptr = malloc(count * size);
 	if (ptr == 0)
+	{
+		free (ptr);
 		return (NULL);
+	}
 	while (i < count * size)
 	{
 		ptr[i] = 0;
@@ -49,32 +52,32 @@ char    *ft_strcpy(char *str, char c)
 }
 */
 
-char    *ft_get_line(char *left_str)
+char	*ft_get_line(char *left_str)
 {
-    int     i;
-    char    *str;
+	int		i;
+	char	*str;
 
-    i = 0;
-    if (!left_str[i])
-        return (NULL);
-    while (left_str[i] && left_str[i] != '\n')
-        i++;
-    str = (char *)malloc(sizeof(char) * (i + 2));
-    if (!str)
-        return (NULL);
-    i = 0;
-    while (left_str[i] && left_str[i] != '\n')
-    {
-        str[i] = left_str[i];
-        i++;
-    }
-    if (left_str[i] == '\n')
-    {
-        str[i] = left_str[i];
-        i++;
-    }
-    str[i] = '\0';
-    return (str);
+	i = 0;
+	if (!left_str[i])
+		return (NULL);
+	while (left_str[i] && left_str[i] != '\n')
+		i++;
+	str = (char *)malloc(sizeof(char) * (i + 2));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (left_str[i] && left_str[i] != '\n')
+	{
+		str[i] = left_str[i];
+		i++;
+	}
+	if (left_str[i] == '\n')
+	{
+		str[i] = left_str[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 /*
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -106,32 +109,32 @@ char	*ft_strjoin(char const *s1, char const *s2)
 }
 */
 
-char    *ft_strjoin(char *left_str, char *buff)
+char	*ft_strjoin(char *left_str, char *buff)
 {
-    size_t  i;
-    size_t  j;
-    char    *str;
+	size_t	i;
+	size_t	j;
+	char	*str;
 
-    if (!left_str)
-    {
-        left_str = (char *)malloc(1 * sizeof(char));
-        left_str[0] = '\0';
-    }
-    if (!left_str || !buff)
-        return (NULL);
-    str = malloc(sizeof(char) * ((ft_strlen(left_str) + ft_strlen(buff)) + 1));
-    if (str == NULL)
-        return (NULL);
-    i = -1;
-    j = 0;
-    if (left_str)
-        while (left_str[++i] != '\0')
-            str[i] = left_str[i];
-    while (buff[j] != '\0')
-        str[i++] = buff[j++];
-    str[ft_strlen(left_str) + ft_strlen(buff)] = '\0';
-    free(left_str);
-    return (str);
+	if (!left_str)
+	{
+		left_str = (char *)malloc(1 * sizeof(char));
+		left_str[0] = '\0';
+	}
+	if (!left_str || !buff)
+		return (NULL);
+	str = malloc(sizeof(char) * ((ft_strlen(left_str) + ft_strlen(buff)) + 1));
+	if (str == NULL)
+		return (NULL);
+	i = -1;
+	j = 0;
+	if (left_str)
+		while (left_str[++i] != '\0')
+			str[i] = left_str[i];
+	while (buff[j] != '\0')
+		str[i++] = buff[j++];
+	str[ft_strlen(left_str) + ft_strlen(buff)] = '\0';
+	free(left_str);
+	return (str);
 }
 
 int	ft_strlen(const char *str)
@@ -164,36 +167,36 @@ char	*ft_strchr(const char *s, int c)
 }
 */
 
-char    *ft_strchr(char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (!s)
-        return (0);
-    if (c == '\0')
-        return ((char *)&s[ft_strlen(s)]);
-    while (s[i] != '\0')
-    {
-        if (s[i] == (char) c)
-            return ((char *)&s[i]);
-        i++;
-    }
-    return (0);
+	i = 0;
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char) c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	return (0);
 }
 
 char	*ft_next_line(char *str)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 	char	*next_line;
-	
+
 	i = 0;
 	j = 0;
 	if (!str)
 		return (NULL);
 	while (str[i] && str[i] != '\n')
-        i++;
+		i++;
 	next_line = (char *) malloc((ft_strlen(str) - i + 1) * sizeof(char));
 	if (!next_line)
 		return (NULL);
@@ -204,7 +207,6 @@ char	*ft_next_line(char *str)
 	next_line[j] = '\0';
 	return (next_line);
 }
-
 
 /* LA IDEA EN ESTE TROZO ES HACERLO CON UN PUNTERO DE MODO QUE (*i)++
 SEA IGUAL A LO QUE SOBRA PA LA SIGUIENTE LÍNEA

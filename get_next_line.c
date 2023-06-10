@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/08 13:04:42 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/10 06:04:13 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,27 @@ char	*ft_readed(int fd, char *readed)
 char	*ft_readed(int fd, char *readed)
 {
 	char	*stash;
-	int		buf; 
+	int		buf;
 
 	if (!readed)
 		readed = ft_calloc(sizeof(char), 1);
-    if (!readed)
-	    return (NULL);
-	stash = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));;
+	if (!readed)
+		return (NULL);
+	stash = ft_calloc(sizeof(char), (BUFFER_SIZE + 1));
 	if (!stash)
 		return (NULL);
 	buf = 1;
-	while (ft_strchr(stash, '\n') == 0 && buf != 0) // Si no encuentra \n en stash
+	while (!ft_strchr(stash, '\n') && buf != 0)
 	{
 		buf = read(fd, stash, BUFFER_SIZE);
-		if (buf < 0)
+		//printf ("buf: %d\n", buf);
+		//printf ("stash: %s\n", stash);
+		//if (!(buf > 0))
+		if (buf == -1)
 		{
 			free (readed);
 			free (stash);
-			return (NULL);	
+			return (NULL);
 		}
 		stash[buf] = '\0';
 		readed = ft_strjoin(readed, stash);
@@ -99,12 +102,11 @@ char	*ft_readed(int fd, char *readed)
     return (readed);
 }*/
 
-
 char	*get_next_line(int fd)
 {
 	static char	*readed;
 	char		*line;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
 	//printf("readed0:%s\n", readed);
@@ -128,7 +130,8 @@ int	main(void)
 	int		i;
 
 	i = 1;
-	fd = open("test00.txt", O_RDONLY);
+	fd = open("test02.txt", O_RDONLY);
+
 	while (i < 5)
 	{
 		line = get_next_line(fd);
