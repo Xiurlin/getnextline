@@ -6,7 +6,7 @@
 /*   By: drestrep <drestrep@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 19:56:22 by drestrep          #+#    #+#             */
-/*   Updated: 2023/06/15 10:46:35 by drestrep         ###   ########.fr       */
+/*   Updated: 2023/06/16 11:40:58 by drestrep         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,32 @@ char	*ft_readed(int fd, char *readed)
 	return (readed);
 }
 
-char	*ft_get_line(char *left_str)
+char	*ft_get_line(char *stash)
 {
 	int		i;
-	char	*str;
+	char	*line;
 
 	i = 0;
-	if (!left_str[i])
+	if (!stash[i])
 		return (NULL);
-	while (left_str[i] && left_str[i] != '\n')
+	while (stash[i] && stash[i] != '\n')
 		i++;
-	str = (char *)malloc(sizeof(char) * (i + 2));
-	if (!str)
+	line = malloc(sizeof(char) * (i + 2));
+	if (!line)
 		return (NULL);
 	i = 0;
-	while (left_str[i] && left_str[i] != '\n')
+	while (stash[i] && stash[i] != '\n')
 	{
-		str[i] = left_str[i];
+		line[i] = stash[i];
 		i++;
 	}
-	if (left_str[i] == '\n')
+	if (stash[i] == '\n')
 	{
-		str[i] = left_str[i];
+		line[i] = stash[i];
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	line[i] = '\0';
+	return (line);
 }
 
 char	*get_next_line(int fd)
@@ -79,7 +79,6 @@ char	*get_next_line(int fd)
 	readed = ft_next_line(readed);
 	return (line);
 }
-
 /*
 int	main(void)
 {
@@ -94,9 +93,7 @@ int	main(void)
 	while (i < 5)
 	{
 		line = get_next_line(fd);
-		//left = ft_strchr(line, '\n');
-		//line = ft_strcpy(line, '\n');
-		printf("Línea[%d]: %s\n", i, line); //Sobrante: %s\n, left
+		printf("Línea[%d]: %s\n", i, line);
 		free (line);
 		i++;
 	}
